@@ -3,3 +3,4 @@ public enum AsiakasTaso {
 	GOLD,
 	PLATINUM,
 }
+//muuttuuko tä nyt
