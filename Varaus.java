@@ -16,4 +16,12 @@ public class Varaus {
 		String s = matka.toString() + "|" + paivamaara.toString() + "|" + asiakas.toString();
 		return s;
 	}
+	
+	public Asiakas annaAsiakas() {
+		return this.asiakas;
+	}
+	
+	public Matka annaMatka() {
+		return this.matka;
+	}
 }

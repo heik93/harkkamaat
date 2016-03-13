@@ -16,4 +16,16 @@ public class Matka {
 		String s = paivamaara.toString() + "|" + kesto + "|" + kohde;
 		return s;
 	}
+	
+	public Date annaPaivamaara() {
+		return this.paivamaara;
+	}
+	
+	public String annaKohde() {
+		return this.kohde;
+	}
+	
+	public int annaKesto() {
+		return this.kesto;
+	}
 }
