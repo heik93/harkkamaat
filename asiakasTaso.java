@@ -1,5 +1,4 @@
-
-public enum asiakasTaso {
+public enum AsiakasTaso {
 	BASIC,
 	GOLD,
 	PLATINUM,

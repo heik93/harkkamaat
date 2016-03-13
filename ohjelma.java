@@ -1,12 +1,6 @@
-
-public class ohjelma {
-
-	/**
-	 * @param args
-	 */
+public class Ohjelma {
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 	}
-
 }

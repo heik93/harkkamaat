@@ -1,31 +1,30 @@
 import java.util.*;
 
-
-public class asiakas {
+public class Asiakas {
 	private String nimi;
 	private int id;
-	private asiakasTaso Taso;
-	private ArrayList<varaus> Varaukset;
+	private AsiakasTaso taso;
+	private ArrayList<Varaus> varaukset;
 	
-
-
-	public asiakas(String nimi, int id, asiakasTaso Taso){
+	public Asiakas(String nimi, int id, AsiakasTaso taso) {
 		this.nimi = nimi;
 		this.id= id;
-		this.Taso = Taso; 
+		this.taso = taso; 
 	}
 	
-	
-	public String annaNimi(){
+	public String annaNimi() {
 		return nimi;
 	}
-	public int annaId(){
+	
+	public int annaId() {
 		return id;
 	}
-	public asiakasTaso annaAsiakasTaso(){
-		return Taso;
+	
+	public AsiakasTaso annaAsiakasTaso() {
+		return taso;
 	}
-	public void asetaAsiakasTaso(asiakasTaso T){
-		this.Taso = T;
+	
+	public void asetaAsiakasTaso(AsiakasTaso taso) {
+		this.taso = taso;
 	}
 }

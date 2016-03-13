@@ -1,19 +1,13 @@
 import java.util.*;
 
-public class varaus {
-	private matka Matka;
+public class Varaus {
+	private Matka matka;
 	private Date paivamaara;
-	private asiakas Asiakas;
+	private Asiakas asiakas;
 
-
-public varaus(matka a, Date b,asiakas c){
-	this.Matka = a;
-	this.paivamaara = b;
-	this.Asiakas = c;
-}
-
-
-
-
-
+	public Varaus(Matka matka, Date paivamaara, Asiakas asiakas) {
+		this.matka = matka;
+		this.paivamaara = paivamaara;
+		this.asiakas = asiakas;
+	}
 }

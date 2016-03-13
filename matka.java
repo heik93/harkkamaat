@@ -1,15 +1,13 @@
 import java.util.*;
 
-public class matka {
+public class Matka {
 	private Date paivamaara;
 	private int kesto;
 	private String kohde;
 
-public matka(Date a, int b, String c){
-	this.paivamaara = a;
-	this.kesto = b;
-	this.kohde = c;
-}
-
-
+	public Matka(Date paivamaara, int kesto, String kohde) {
+		this.paivamaara = paivamaara;
+		this.kesto = kesto;
+		this.kohde = kohde;
+	}
 }
