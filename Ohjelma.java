@@ -1,5 +1,6 @@
 import java.util.*;
 import java.lang.*;
+import java.io.*;
 
 public class Ohjelma {
 	static final int ASIAKKAITA = 10;
@@ -17,6 +18,7 @@ public class Ohjelma {
 	static ArrayList<Matka> matkat;
 	
 	public static void main(String[] args) {
+
 		asiakkaat = new ArrayList<Asiakas>();
 		matkat = new ArrayList<Matka>();
 		
@@ -63,6 +65,39 @@ public class Ohjelma {
 	}
 	
 	public static void lueDatat() {
+
+		File f = new File("Asiakkaat.txt");
+		if((f.exists() && !f.isDirectory()) == false) { 
 		
+			try{
+				PrintWriter writer = new PrintWriter("Asiakkaat.txt", "UTF-8");
+				writer.close();
+			}
+				catch(IOException e){
+				
+			}
+		}
+		File g = new File("Varaukset.txt");
+		if((g.exists() && !g.isDirectory()) == false) { 
+		
+			try{
+				PrintWriter writer = new PrintWriter("Varaukset.txt", "UTF-8");
+				writer.close();
+			}
+				catch(IOException e){
+				
+			}
+		}
+		File h = new File("Matkat.txt");
+		if((h.exists() && !h.isDirectory()) == false) { 
+		
+			try{
+				PrintWriter writer = new PrintWriter("Matkat.txt", "UTF-8");
+				writer.close();
+			}
+				catch(IOException e){
+				
+			}
+		}
 	}
 }
