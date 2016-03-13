@@ -27,4 +27,10 @@ public class Asiakas {
 	public void asetaAsiakasTaso(AsiakasTaso taso) {
 		this.taso = taso;
 	}
+	
+	@Override
+	public String toString() {
+		String s = nimi + "|" + id + "|" + taso;
+		return s;
+	}
 }

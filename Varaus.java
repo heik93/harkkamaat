@@ -10,4 +10,10 @@ public class Varaus {
 		this.paivamaara = paivamaara;
 		this.asiakas = asiakas;
 	}
+	
+	@Override
+	public String toString() {
+		String s = matka.toString() + "|" + paivamaara.toString() + "|" + asiakas.toString();
+		return s;
+	}
 }

@@ -10,4 +10,10 @@ public class Matka {
 		this.kesto = kesto;
 		this.kohde = kohde;
 	}
+	
+	@Override
+	public String toString() {
+		String s = paivamaara.toString() + "|" + kesto + "|" + kohde;
+		return s;
+	}
 }
