@@ -6,13 +6,13 @@ public class Ohjelma {
 	static final int ASIAKKAITA = 10;
 	static final int MATKOJA = 10;
 
-	static final int alkupvm_year = 2016;
-	static final int alkupvm_month = 2;
-	static final int alkupvm_day = 15;
+	static int alkupvm_year;
+	static int alkupvm_month;
+	static int alkupvm_day;
 
-	static final int loppupvm_year = 2016;
-	static final int loppupvm_month = 4;
-	static final int loppupvm_day = 1;
+	static int loppupvm_year;
+	static int loppupvm_month;
+	static int loppupvm_day;
 
 	static ArrayList<Asiakas> asiakkaat;
 	static ArrayList<Matka> matkat;
@@ -25,6 +25,19 @@ public class Ohjelma {
 	static boolean loop = true;
 
 	public static void main(String[] args) {
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		
+		alkupvm_year = today.get(Calendar.YEAR);
+		alkupvm_month = today.get(Calendar.MONTH);
+		alkupvm_day = today.get(Calendar.DAY_OF_MONTH);
+		
+		today.add(Calendar.DAY_OF_MONTH, 30);
+		
+		loppupvm_year = today.get(Calendar.YEAR);
+		loppupvm_month = today.get(Calendar.MONTH);
+		loppupvm_day = today.get(Calendar.DAY_OF_MONTH);
+		
 		asiakkaat = new ArrayList<Asiakas>();
 		matkat = new ArrayList<Matka>();
 		varaukset = new ArrayList<Varaus>();
