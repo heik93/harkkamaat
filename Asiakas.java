@@ -3,7 +3,6 @@ import java.util.*;
 public class Asiakas {
 	private String nimi;
 	private int id;
-	private ArrayList<Varaus> varaukset;
 	
 	public Asiakas(String nimi, int id) {
 		this.nimi = nimi;

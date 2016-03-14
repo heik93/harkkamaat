@@ -1,10 +1,8 @@
 import java.util.*;
-import java.lang.*;
 import java.io.*;
 
 public class Ohjelma {
 	static final int ASIAKKAITA = 10;
-	static final int MATKOJA = 10;
 
 	static int alkupvm_year;
 	static int alkupvm_month;
@@ -244,7 +242,6 @@ public class Ohjelma {
 				continue;
 			}
 			
-			Date date = new Date(yyyy - 1900, mm, dd);
 			Matka matka = null;
 			
 			for (Matka m : matkat) {
