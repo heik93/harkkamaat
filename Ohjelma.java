@@ -15,7 +15,7 @@ public class Ohjelma {
 	static ArrayList<Asiakas> asiakkaat;
 	static ArrayList<Matka> matkat;
 	static ArrayList<Varaus> varaukset;
-	
+
 	static Scanner scanner = new Scanner(System.in);
 
 	static Asiakas kirjautunut;
@@ -25,17 +25,17 @@ public class Ohjelma {
 	public static void main(String[] args) {
 		Calendar today = Calendar.getInstance();
 		today.set(Calendar.HOUR_OF_DAY, 0);
-		
+
 		alkupvm_year = today.get(Calendar.YEAR);
 		alkupvm_month = today.get(Calendar.MONTH);
 		alkupvm_day = today.get(Calendar.DAY_OF_MONTH);
-		
+
 		today.add(Calendar.DAY_OF_MONTH, 30);
-		
+
 		loppupvm_year = today.get(Calendar.YEAR);
 		loppupvm_month = today.get(Calendar.MONTH);
 		loppupvm_day = today.get(Calendar.DAY_OF_MONTH);
-		
+
 		asiakkaat = new ArrayList<Asiakas>();
 		matkat = new ArrayList<Matka>();
 		varaukset = new ArrayList<Varaus>();
@@ -118,54 +118,54 @@ public class Ohjelma {
 		}
 		scanner.reset();
 	}
-	
+
 	public static void luoAsiakasMenu() {
 		boolean luoAsiakasLoop = true;
-		
+
 		while (luoAsiakasLoop) {
 			System.out.println("Luo asiakas");
 			System.out.println("Anna nimi:");
 			String nimi = scanner.nextLine();
-			
+
 			if (nimi.equals("")) {
 				luoAsiakasLoop = false;
 				break;
 			}
-			
+
 			int id = annaVapaaid();
-			
+
 			Asiakas asiakas = new Asiakas(nimi, id);
 			asiakkaat.add(asiakas);
 			kirjoitaAsiakkaat();
 			System.out.println("Asiakas " + id + " luotu");
 			luoAsiakasLoop = false;
 		}
-		
+
 		scanner.reset();
 	}
-	
+
 	public static void kirjauduMenu() {
 		boolean kirjauduLoop = true;
-		
+
 		while (kirjauduLoop) {
 			System.out.println("Kirjaudu");
 			System.out.println("Anna asiakkaan id:");
-			
+
 			String id = scanner.nextLine();
-			
+
 			if (id.equals("")) {
 				kirjauduLoop = false;
 				break;
 			}
 			int id_int = 0;
-			
+
 			try {
 				id_int = Integer.parseInt(id);
 			} catch (NumberFormatException e) {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
-			
+
 			for (Asiakas a : asiakkaat) {
 				if (a.annaId() == id_int) {
 					kirjautunut = a;
@@ -175,15 +175,15 @@ public class Ohjelma {
 					break;
 				}
 			}
-			
+
 			if (kirjautunut == null) {
 				System.out.println("Kirjautuminen epäonnistui");
 			}
 		}
-		
+
 		scanner.reset();
 	}
-	
+
 	public static void kirjautunutMenu() {
 		boolean kirjautunutLoop = true;
 
@@ -213,7 +213,7 @@ public class Ohjelma {
 		}
 		scanner.reset();
 	}
-	
+
 	public static void uusiVaraus() {
 		boolean uusiVarausLoop = true;
 
@@ -221,18 +221,18 @@ public class Ohjelma {
 			System.out.println("Mille päivälle haluaisit tehdä varauksen?");
 			System.out.println("Anna vastauksesi muodossa dd-mm-yyyy");
 			String datestring = scanner.nextLine();
-			
+
 			if (datestring.equals("")) {
 				uusiVarausLoop = false;
 				break;
 			}
-			
+
 			String[] split = datestring.split("-");
-			
+
 			int dd = 0;
 			int mm = 0;
 			int yyyy = 0;
-			
+
 			try {
 				dd = Integer.parseInt(split[0]);
 				mm = Integer.parseInt(split[1]) - 1;
@@ -241,68 +241,68 @@ public class Ohjelma {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
-			
+
 			Matka matka = null;
-			
+
 			for (Matka m : matkat) {
 				int mDay = m.annaPaivamaara().getDate();
 				int mMonth = m.annaPaivamaara().getMonth();
 				int mYear = m.annaPaivamaara().getYear() + 1900;
-				
+
 				if (mDay == dd && mMonth == mm && mYear == yyyy) {
 					matka = m;
 					break;
 				}
 			}
-			
+
 			if (matka == null) {
 				System.out.println("Antamallesi päivämäärälle ei löydy matkoja");
 				continue;
 			}
-			
+
 			Varaus varaus = new Varaus(matka, new Date(), kirjautunut);
 			varaukset.add(varaus);
 			System.out.println("Varaus tehtiin onnistuneesti");
-			
+
 			kirjoitaVaraukset();
-			
+
 			uusiVarausLoop = false;
 		}
 		scanner.reset();
 	}
-	
+
 	public static void poistaVaraus() {
 		ArrayList<Varaus> asiakkaanVaraukset = new ArrayList<Varaus>();
-		
+
 		boolean poistaVarausLoop = true;
-		
-		while(poistaVarausLoop) {
+
+		while (poistaVarausLoop) {
 			for (Varaus v : varaukset) {
 				if (v.annaAsiakas().annaId() == kirjautunut.annaId()) {
 					asiakkaanVaraukset.add(v);
 				}
 			}
-			
+
 			if (asiakkaanVaraukset.size() == 0) {
 				System.out.println("Ei poistettavia varauksia");
 				poistaVarausLoop = false;
 				break;
 			}
-			
+
 			System.out.println("Minkä seuraavista varauksista haluat poistaa?");
-			
+
 			for (int i = 0; i < asiakkaanVaraukset.size(); i++) {
 				Matka matka = asiakkaanVaraukset.get(i).annaMatka();
-				
-				System.out.println(i + ". " + matka.annaPaivamaara().toString() + " - " +
-						matka.annaKohde() + " - " + matka.annaKesto() + " tuntia");
-				
+
+				System.out.println(i + ". " + matka.annaPaivamaara().toString() + " - " + matka.annaKohde() + " - "
+						+ matka.annaKesto() + " tuntia");
+
 				if (i != 0 && i % 10 == 0) {
 					System.out.println("Kirjoita q lopettaaksesi varausten listaamisen");
 					System.out.println("Paina enter jatkaaksesi varausten listaamista");
-					
+
 					String input = scanner.nextLine();
-					
+
 					if (input.equals("q")) {
 						break;
 					} else if (input.equals("")) {
@@ -310,64 +310,63 @@ public class Ohjelma {
 					}
 				}
 			}
-			
+
 			System.out.println("Syötä valintasi");
 			String valinta = scanner.nextLine();
-			
+
 			if (valinta.equals("")) {
 				poistaVarausLoop = false;
 				break;
 			}
-			
+
 			int valinta_int = 0;
-			
+
 			try {
 				valinta_int = Integer.parseInt(valinta);
 			} catch (NumberFormatException e) {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
-			
+
 			if (valinta_int >= asiakkaanVaraukset.size()) {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
 
 			varaukset.remove(valinta_int);
-			
+
 			poistaVarausLoop = false;
-			
+
 			kirjoitaVaraukset();
-			
+
 			System.out.println("Varaus poistettiin onnistuneesti");
 		}
-		
+
 		scanner.reset();
 	}
-	
+
 	public static void poistaAsiakasMenu() {
 		boolean poistaAsiakasLoop = true;
-		
+
 		while (poistaAsiakasLoop) {
 			if (asiakkaat.size() == 0) {
 				System.out.println("Ei poistettavia asiakkaita");
 				poistaAsiakasLoop = false;
 				break;
 			}
-			
+
 			System.out.println("Minkä seuraavista asiakkaista haluat poistaa?");
-			
+
 			for (int i = 0; i < asiakkaat.size(); i++) {
 				Asiakas asiakas = asiakkaat.get(i);
-				
-				System.out.println(i + ". " + asiakas.annaNimi() + " - " +
-						asiakas.annaId());
+
+				System.out.println(i + ". " + asiakas.annaNimi() + " - " + asiakas.annaId());
 				if (i != 0 && i % 10 == 0) {
 					System.out.println("Kirjoita q lopettaaksesi asiakkaiden listaamisen");
 					System.out.println("Paina enter jatkaaksesi asiakkaiden listaamista");
-					
+
 					String input = scanner.nextLine();
-					
+
 					if (input.equals("q")) {
 						break;
 					} else if (input.equals("")) {
@@ -375,55 +374,55 @@ public class Ohjelma {
 					}
 				}
 			}
-			
+
 			System.out.println("Syötä valintasi");
 			String valinta = scanner.nextLine();
-			
+
 			if (valinta.equals("")) {
 				poistaAsiakasLoop = false;
 				break;
 			}
-			
+
 			int id_int = 0;
-			
+
 			try {
 				id_int = Integer.parseInt(valinta);
 			} catch (NumberFormatException e) {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
-			
+
 			Asiakas poistettava = null;
-			
+
 			for (Asiakas a : asiakkaat) {
 				if (a.annaId() == id_int) {
 					poistettava = a;
 					break;
 				}
 			}
-			
+
 			if (poistettava == null) {
 				System.out.println("Asiakasta ei löytynyt");
 				continue;
 			}
-			
+
 			for (Varaus v : varaukset) {
 				if (v.annaAsiakas().annaId() == id_int) {
 					v = null;
 					varaukset.remove(v);
 				}
 			}
-			
+
 			asiakkaat.remove(poistettava);
-			
+
 			kirjoitaAsiakkaat();
 			kirjoitaVaraukset();
-			
+
 			System.out.println("Asiakas poistettu onnistuneesti");
-			
+
 			poistaAsiakasLoop = false;
 		}
-		
+
 		scanner.reset();
 	}
 
@@ -453,25 +452,25 @@ public class Ohjelma {
 		}
 		scanner.reset();
 	}
-	
+
 	public static void luoMatkaMenu() {
 		boolean luoMatkaLoop = true;
-		
+
 		while (luoMatkaLoop) {
 			System.out.println("Mille päivälle haluaisit luoda matkan?");
 			System.out.println("Anna vastauksesi muodossa dd-mm-yyyy");
 			String datestring = scanner.nextLine();
-			
+
 			if (datestring.equals("")) {
 				luoMatkaLoop = false;
 				break;
 			}
-			
+
 			String[] split = datestring.split("-");
 			int dd = 0;
 			int mm = 0;
 			int yyyy = 0;
-			
+
 			try {
 				dd = Integer.parseInt(split[0]);
 				mm = Integer.parseInt(split[1]) - 1;
@@ -481,46 +480,46 @@ public class Ohjelma {
 				continue;
 			}
 			Date date = new Date(yyyy - 1900, mm, dd);
-			
+
 			System.out.println("Anna matkan määränpää");
 			String kohde = scanner.nextLine();
-			
+
 			if (kohde.equals("")) {
 				luoMatkaLoop = false;
 				break;
 			}
-			
+
 			System.out.println("Anna matkan kesto tunteina");
 			String kesto = scanner.nextLine();
-			
+
 			if (kesto.equals("")) {
 				luoMatkaLoop = false;
 				break;
 			}
-			
+
 			int kesto_int = 0;
-			
+
 			try {
 				kesto_int = Integer.parseInt(kesto);
 			} catch (NumberFormatException e) {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
-			
+
 			Matka matka = new Matka(date, kesto_int, kohde);
-			
+
 			for (Matka m : matkat) {
-				if (m.annaPaivamaara().getDate() == dd && m.annaPaivamaara().getMonth() == mm &&
-						m.annaPaivamaara().getYear() + 1900 == yyyy && m.annaKesto() == kesto_int &&
-						m.annaKohde() == kohde) {
+				if (m.annaPaivamaara().getDate() == dd && m.annaPaivamaara().getMonth() == mm
+						&& m.annaPaivamaara().getYear() + 1900 == yyyy && m.annaKesto() == kesto_int
+						&& m.annaKohde() == kohde) {
 					System.out.println("Samanlainen matka on jo olemassa, matkaa ei luotu");
 					continue;
 				}
 			}
 			matkat.add(matka);
-			
+
 			kirjoitaMatkat();
-			
+
 			System.out.println("Matka luotiin onnistuneesti");
 			luoMatkaLoop = false;
 		}
@@ -528,28 +527,28 @@ public class Ohjelma {
 
 	public static void poistaMatkaMenu() {
 		boolean poistaMatkaLoop = true;
-		
-		while(poistaMatkaLoop) {
-			
+
+		while (poistaMatkaLoop) {
+
 			if (matkat.size() == 0) {
 				System.out.println("Ei poistettavia matkoja");
 				poistaMatkaLoop = false;
 				break;
 			}
-			
+
 			System.out.println("Minkä seuraavista matkoista haluat poistaa?");
-			
+
 			for (int i = 0; i < matkat.size(); i++) {
 				Matka matka = matkat.get(i);
-				
-				System.out.println(i + ". " + matka.annaPaivamaara().toString() + " - " +
-						matka.annaKohde() + " - " + matka.annaKesto() + " tuntia");
+
+				System.out.println(i + ". " + matka.annaPaivamaara().toString() + " - " + matka.annaKohde() + " - "
+						+ matka.annaKesto() + " tuntia");
 				if (i != 0 && i % 10 == 0) {
 					System.out.println("Kirjoita q lopettaaksesi matkojen listaamisen");
 					System.out.println("Paina enter jatkaaksesi matkojen listaamista");
-					
+
 					String input = scanner.nextLine();
-					
+
 					if (input.equals("q")) {
 						break;
 					} else if (input.equals("")) {
@@ -557,15 +556,15 @@ public class Ohjelma {
 					}
 				}
 			}
-			
+
 			System.out.println("Syötä valintasi");
 			String valinta = scanner.nextLine();
-			
+
 			if (valinta.equals("")) {
 				poistaMatkaLoop = false;
 				break;
 			}
-			
+
 			int valinta_int = 0;
 			try {
 				valinta_int = Integer.parseInt(valinta);
@@ -573,21 +572,21 @@ public class Ohjelma {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
-			
+
 			if (valinta_int >= matkat.size()) {
 				System.out.println("Virheellinen syöte");
 				continue;
 			}
 
 			matkat.remove(valinta_int);
-			
+
 			poistaMatkaLoop = false;
-			
+
 			kirjoitaMatkat();
-			
+
 			System.out.println("Varaus poistettiin onnistuneesti");
 		}
-		
+
 		scanner.reset();
 	}
 
@@ -610,9 +609,8 @@ public class Ohjelma {
 			Date paivamaara = cal.getTime();
 			Matka matka = new Matka(paivamaara, 8, "Testimaa");
 			matkat.add(matka);
-			if (paivamaara.getDate() != loppudate.getDate() || 
-					paivamaara.getMonth() != loppudate.getMonth() ||
-					paivamaara.getYear() != loppudate.getYear()) {
+			if (paivamaara.getDate() != loppudate.getDate() || paivamaara.getMonth() != loppudate.getMonth()
+					|| paivamaara.getYear() != loppudate.getYear()) {
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			} else {
 				kaikki = true;
@@ -686,7 +684,7 @@ public class Ohjelma {
 
 			}
 		}
-		
+
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(h));
 			StringBuilder sb = new StringBuilder();
@@ -711,7 +709,7 @@ public class Ohjelma {
 
 		String nimi = split[0]; // nimi
 		String id = split[1]; // id
-		
+
 		int id_int = 0;
 		try {
 			id_int = Integer.parseInt(id);
@@ -752,18 +750,81 @@ public class Ohjelma {
 											// tulisi olla 3
 
 		String paivamaara = split[0]; // Matkan päivämäärä
-		Date pvm = new Date(paivamaara);
+		int dd = 0;
+		int mm = 0;
+		int yyyy = 0;
+	
+		try {
+			String[] pvmsplit = paivamaara.split(" ");
+			dd = Integer.parseInt(pvmsplit[2]);
+			mm = 0;
+			yyyy = Integer.parseInt(pvmsplit[5]);
+
+			switch (pvmsplit[1]) {
+			case "Jan":
+				mm = 0;
+				break;
+			case "Feb":
+				mm = 1;
+				break;
+			case "Mar":
+				mm = 2;
+				break;
+			case "Apr":
+				mm = 3;
+				break;
+			case "May":
+				mm = 4;
+				break;
+			case "Jun":
+				mm = 5;
+				break;
+			case "Jul":
+				mm = 6;
+				break;
+			case "Aug":
+				mm = 7;
+				break;
+			case "Sep":
+				mm = 8;
+				break;
+			case "Oct":
+				mm = 9;
+				break;
+			case "Nov":
+				mm = 10;
+				break;
+			case "Dec":
+				mm = 11;
+				break;
+			default:
+				mm = Integer.MIN_VALUE;
+				break;
+			}
+		} catch (NumberFormatException e) {
+			System.out.println(
+					"Virheellinen päivämäärä matkan " + paivamaara + " " + split[2] + " " + split[1] + " kohdalla");
+			return;
+		}
+		Date pvm = null;
+
+		try {
+			pvm = new Date(yyyy - 1900, mm, dd);
+		} catch (Exception e) {
+			System.out.println(
+					"Virheellinen päivämäärä matkan " + paivamaara + " " + split[2] + " " + split[1] + " kohdalla");
+			return;
+		}
 		String kesto = split[1]; // Matkan kesto
 		int kesto_int = 0;
-		
+
 		try {
 			kesto_int = Integer.parseInt(kesto);
 		} catch (NumberFormatException e) {
-			System.out.println("Virheellinen kesto matkan " + 
-				paivamaara + " " + split[2] + " " + kesto + " kohdalla");
+			System.out.println("Virheellinen kesto matkan " + paivamaara + " " + split[2] + " " + kesto + " kohdalla");
 			return;
 		}
-		
+
 		String kohde = split[2]; // Matkan kohde
 
 		Matka matka = new Matka(pvm, kesto_int, kohde);
@@ -801,13 +862,12 @@ public class Ohjelma {
 		String paivamaara = split[0]; // Matkan päivämäärä
 		String kesto = split[1]; // Matkan kesto
 		int kesto_int = 0;
-		
+
 		try {
 			kesto_int = Integer.parseInt(kesto);
 		} catch (NumberFormatException e) {
-			System.out.println("Virheellinen kesto varauksen " + paivamaara + " " +
-				kesto + " " + split[2] + " " + split[3] + " " + split[4] + " " + 
-					split[5] + " kohdalla");
+			System.out.println("Virheellinen kesto varauksen " + paivamaara + " " + kesto + " " + split[2] + " "
+					+ split[3] + " " + split[4] + " " + split[5] + " kohdalla");
 			return;
 		}
 		String kohde = split[2]; // Matkan kohde
@@ -820,9 +880,8 @@ public class Ohjelma {
 		try {
 			id_int = Integer.parseInt(id);
 		} catch (NumberFormatException e) {
-			System.out.println("Virheellinen id varauksen " + paivamaara + " " +
-				kesto + " " + split[2] + " " + split[3] + " " + split[4] + " " + 
-					split[5] + " kohdalla");
+			System.out.println("Virheellinen id varauksen " + paivamaara + " " + kesto + " " + split[2] + " " + split[3]
+					+ " " + split[4] + " " + split[5] + " kohdalla");
 			return;
 		}
 
@@ -859,10 +918,10 @@ public class Ohjelma {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public static int annaVapaaid() {
 		int id = 0;
-		
+
 		for (int i = 0; i < Integer.MAX_VALUE; i++) {
 			boolean vapaa = true;
 			for (Asiakas a : asiakkaat) {
@@ -871,14 +930,14 @@ public class Ohjelma {
 					break;
 				}
 			}
-			
+
 			if (vapaa) {
 				id = i;
 				break;
 			}
 		}
-		
+
 		return id;
 	}
-	
+
 }
