@@ -112,6 +112,12 @@ public class Ohjelma {
 			System.out.println("Luo asiakas");
 			System.out.println("Anna nimi:");
 			String nimi = scanner.nextLine();
+			
+			if (nimi.equals("")) {
+				luoAsiakasLoop = false;
+				break;
+			}
+			
 			int id = annaVapaaid();
 			
 			Asiakas asiakas = new Asiakas(nimi, id);
@@ -199,6 +205,12 @@ public class Ohjelma {
 			System.out.println("Mille päivälle haluaisit tehdä varauksen?");
 			System.out.println("Anna vastauksesi muodossa dd-mm-yyyy");
 			String datestring = scanner.nextLine();
+			
+			if (datestring.equals("")) {
+				uusiVarausLoop = false;
+				break;
+			}
+			
 			String[] split = datestring.split("-");
 			
 			int dd = 0;
@@ -286,6 +298,12 @@ public class Ohjelma {
 			
 			System.out.println("Syötä valintasi");
 			String valinta = scanner.nextLine();
+			
+			if (valinta.equals("")) {
+				poistaVarausLoop = false;
+				break;
+			}
+			
 			int valinta_int = 0;
 			
 			try {
@@ -452,8 +470,18 @@ public class Ohjelma {
 			System.out.println("Anna matkan määränpää");
 			String kohde = scanner.nextLine();
 			
+			if (kohde.equals("")) {
+				luoMatkaLoop = false;
+				break;
+			}
+			
 			System.out.println("Anna matkan kesto tunteina");
 			String kesto = scanner.nextLine();
+			
+			if (kesto.equals("")) {
+				luoMatkaLoop = false;
+				break;
+			}
 			
 			int kesto_int = 0;
 			
