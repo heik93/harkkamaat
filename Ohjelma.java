@@ -595,7 +595,9 @@ public class Ohjelma {
 			Date paivamaara = cal.getTime();
 			Matka matka = new Matka(paivamaara, 8, "Testimaa");
 			matkat.add(matka);
-			if (!paivamaara.toGMTString().equals(loppudate.toGMTString())) {
+			if (paivamaara.getDate() != loppudate.getDate() && 
+					paivamaara.getMonth() != loppudate.getMonth() &&
+					paivamaara.getYear() != loppudate.getYear()) {
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			} else {
 				kaikki = true;
