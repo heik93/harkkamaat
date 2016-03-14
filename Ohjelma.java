@@ -137,8 +137,14 @@ public class Ohjelma {
 				kirjauduLoop = false;
 				break;
 			}
+			int id_int = 0;
 			
-			int id_int = Integer.parseInt(id);
+			try {
+				id_int = Integer.parseInt(id);
+			} catch (NumberFormatException e) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
 			
 			for (Asiakas a : asiakkaat) {
 				if (a.annaId() == id_int) {
@@ -194,15 +200,26 @@ public class Ohjelma {
 			System.out.println("Anna vastauksesi muodossa dd-mm-yyyy");
 			String datestring = scanner.nextLine();
 			String[] split = datestring.split("-");
-			int dd = Integer.parseInt(split[0]);
-			int mm = Integer.parseInt(split[1]);
-			int yyyy = Integer.parseInt(split[2]);
-			Date date = new Date(dd, mm, yyyy);
+			
+			int dd = 0;
+			int mm = 0;
+			int yyyy = 0;
+			
+			try {
+				dd = Integer.parseInt(split[0]);
+				mm = Integer.parseInt(split[1]) - 1;
+				yyyy = Integer.parseInt(split[2]);
+			} catch (NumberFormatException e) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
+			
+			Date date = new Date(yyyy - 1900, mm, dd);
 			Matka matka = null;
 			
 			for (Matka m : matkat) {
 				int mDay = m.annaPaivamaara().getDate();
-				int mMonth = m.annaPaivamaara().getMonth() + 1;
+				int mMonth = m.annaPaivamaara().getMonth();
 				int mYear = m.annaPaivamaara().getYear() + 1900;
 				
 				if (mDay == dd && mMonth == mm && mYear == yyyy) {
@@ -269,7 +286,14 @@ public class Ohjelma {
 			
 			System.out.println("Syötä valintasi");
 			String valinta = scanner.nextLine();
-			int valinta_int = Integer.parseInt(valinta);
+			int valinta_int = 0;
+			
+			try {
+				valinta_int = Integer.parseInt(valinta);
+			} catch (NumberFormatException e) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
 			
 			if (valinta_int >= asiakkaanVaraukset.size()) {
 				System.out.println("Virheellinen syöte");
@@ -292,16 +316,50 @@ public class Ohjelma {
 		boolean poistaAsiakasLoop = true;
 		
 		while (poistaAsiakasLoop) {
-			System.out.println("Poista asiakas");
-			System.out.println("Anna asiakkaan id:");
-			String id = scanner.nextLine();
-			
-			if (id.equals("")) {
+			if (asiakkaat.size() == 0) {
+				System.out.println("Ei poistettavia asiakkaita");
 				poistaAsiakasLoop = false;
 				break;
 			}
 			
-			int id_int = Integer.parseInt(id);
+			System.out.println("Minkä seuraavista asiakkaista haluat poistaa?");
+			
+			for (int i = 0; i < asiakkaat.size(); i++) {
+				Asiakas asiakas = asiakkaat.get(i);
+				
+				System.out.println(i + ". " + asiakas.annaNimi() + " - " +
+						asiakas.annaId());
+				if (i != 0 && i % 10 == 0) {
+					System.out.println("Kirjoita q lopettaaksesi asiakkaiden listaamisen");
+					System.out.println("Paina enter jatkaaksesi asiakkaiden listaamista");
+					
+					String input = scanner.nextLine();
+					
+					if (input.equals("q")) {
+						break;
+					} else if (input.equals("")) {
+						continue;
+					}
+				}
+			}
+			
+			System.out.println("Syötä valintasi");
+			String valinta = scanner.nextLine();
+			
+			if (valinta.equals("")) {
+				poistaAsiakasLoop = false;
+				break;
+			}
+			
+			int id_int = 0;
+			
+			try {
+				id_int = Integer.parseInt(valinta);
+			} catch (NumberFormatException e) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
+			
 			Asiakas poistettava = null;
 			
 			for (Asiakas a : asiakkaat) {
@@ -377,9 +435,18 @@ public class Ohjelma {
 			}
 			
 			String[] split = datestring.split("-");
-			int dd = Integer.parseInt(split[0]);
-			int mm = Integer.parseInt(split[1]);
-			int yyyy = Integer.parseInt(split[2]);
+			int dd = 0;
+			int mm = 0;
+			int yyyy = 0;
+			
+			try {
+				dd = Integer.parseInt(split[0]);
+				mm = Integer.parseInt(split[1]) - 1;
+				yyyy = Integer.parseInt(split[2]);
+			} catch (NumberFormatException e) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
 			Date date = new Date(yyyy - 1900, mm, dd);
 			
 			System.out.println("Anna matkan määränpää");
@@ -387,7 +454,15 @@ public class Ohjelma {
 			
 			System.out.println("Anna matkan kesto tunteina");
 			String kesto = scanner.nextLine();
-			int kesto_int = Integer.parseInt(kesto);
+			
+			int kesto_int = 0;
+			
+			try {
+				kesto_int = Integer.parseInt(kesto);
+			} catch (NumberFormatException e) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
 			
 			Matka matka = new Matka(date, kesto_int, kohde);
 			
@@ -448,7 +523,13 @@ public class Ohjelma {
 				break;
 			}
 			
-			int valinta_int = Integer.parseInt(valinta);
+			int valinta_int = 0;
+			try {
+				valinta_int = Integer.parseInt(valinta);
+			} catch (NumberFormatException e) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
 			
 			if (valinta_int >= matkat.size()) {
 				System.out.println("Virheellinen syöte");
@@ -585,8 +666,14 @@ public class Ohjelma {
 
 		String nimi = split[0]; // nimi
 		String id = split[1]; // id
-		int id_int = Integer.parseInt(id);
-
+		
+		int id_int = 0;
+		try {
+			id_int = Integer.parseInt(id);
+		} catch (NumberFormatException e) {
+			System.out.println("Virheellinen id asiakkaan " + nimi + " " + id + " kohdalla");
+			return;
+		}
 		Asiakas asiakas = new Asiakas(nimi, id_int);
 		asiakkaat.add(asiakas);
 	}
@@ -621,7 +708,16 @@ public class Ohjelma {
 
 		String paivamaara = split[0]; // Matkan päivämäärä
 		String kesto = split[1]; // Matkan kesto
-		int kesto_int = Integer.parseInt(kesto);
+		int kesto_int = 0;
+		
+		try {
+			kesto_int = Integer.parseInt(kesto);
+		} catch (NumberFormatException e) {
+			System.out.println("Virheellinen kesto matkan " + 
+				paivamaara + " " + split[2] + " " + kesto + " kohdalla");
+			return;
+		}
+		
 		String kohde = split[2]; // Matkan kohde
 
 		Matka matka = new Matka(new Date(paivamaara), kesto_int, kohde);
@@ -658,14 +754,31 @@ public class Ohjelma {
 
 		String paivamaara = split[0]; // Matkan päivämäärä
 		String kesto = split[1]; // Matkan kesto
-		int kesto_int = Integer.parseInt(kesto);
+		int kesto_int = 0;
+		
+		try {
+			kesto_int = Integer.parseInt(kesto);
+		} catch (NumberFormatException e) {
+			System.out.println("Virheellinen kesto varauksen " + paivamaara + " " +
+				kesto + " " + split[2] + " " + split[3] + " " + split[4] + " " + 
+					split[5] + " kohdalla");
+			return;
+		}
 		String kohde = split[2]; // Matkan kohde
 
 		String varauspvm = split[3]; // Varauksen pvm
 
 		String nimi = split[4]; // Asiakkaan nimi
 		String id = split[5]; // Asiakkaan id
-		int id_int = Integer.parseInt(id);
+		int id_int = 0;
+		try {
+			id_int = Integer.parseInt(id);
+		} catch (NumberFormatException e) {
+			System.out.println("Virheellinen id varauksen " + paivamaara + " " +
+				kesto + " " + split[2] + " " + split[3] + " " + split[4] + " " + 
+					split[5] + " kohdalla");
+			return;
+		}
 
 		Matka matka = new Matka(new Date(paivamaara), kesto_int, kohde);
 		Date varauspaivamaara = new Date(varauspvm);
