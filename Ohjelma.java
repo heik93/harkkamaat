@@ -54,7 +54,6 @@ public class Ohjelma {
 		System.out.println("Testimenu:");
 		System.out.println("1. Asiakkaat");
 		System.out.println("2. Matkat");
-		System.out.println("3. Varaukset");
 		System.out.println("0. Quit");
 
 		String input = scanner.nextLine();
@@ -65,9 +64,6 @@ public class Ohjelma {
 			break;
 		case "2":
 			matkaMenu();
-			break;
-		case "3":
-			varausMenu();
 			break;
 		case "0":
 			loop = false;
@@ -469,10 +465,6 @@ public class Ohjelma {
 		}
 		
 		scanner.reset();
-	}
-	
-	public static void varausMenu() {
-
 	}
 
 	public static void generoiAsiakkaat() {
