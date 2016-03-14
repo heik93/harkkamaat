@@ -3,13 +3,11 @@ import java.util.*;
 public class Asiakas {
 	private String nimi;
 	private int id;
-	private AsiakasTaso taso;
 	private ArrayList<Varaus> varaukset;
 	
-	public Asiakas(String nimi, int id, AsiakasTaso taso) {
+	public Asiakas(String nimi, int id) {
 		this.nimi = nimi;
 		this.id= id;
-		this.taso = taso; 
 	}
 	
 	public String annaNimi() {
@@ -20,17 +18,9 @@ public class Asiakas {
 		return id;
 	}
 	
-	public AsiakasTaso annaAsiakasTaso() {
-		return taso;
-	}
-	
-	public void asetaAsiakasTaso(AsiakasTaso taso) {
-		this.taso = taso;
-	}
-	
 	@Override
 	public String toString() {
-		String s = nimi + "|" + id + "|" + taso;
+		String s = nimi + "|" + id;
 		return s;
 	}
 }

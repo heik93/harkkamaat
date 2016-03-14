@@ -117,26 +117,8 @@ public class Ohjelma {
 			System.out.println("Anna nimi:");
 			String nimi = scanner.nextLine();
 			int id = annaVapaaid();
-			System.out.println("Anna taso 1. BASIC 2. GOLD 3. PLATINUM");
-			String taso = scanner.nextLine();
-			AsiakasTaso taso_enum = null;
 			
-			switch (taso) {
-			case "1":
-				taso_enum = AsiakasTaso.BASIC;
-				break;
-			case "2":
-				taso_enum = AsiakasTaso.GOLD;
-				break;
-			case "3":
-				taso_enum = AsiakasTaso.PLATINUM;
-				break;
-			default:
-				taso_enum = AsiakasTaso.BASIC;
-				break;
-			}
-			
-			Asiakas asiakas = new Asiakas(nimi, id, taso_enum);
+			Asiakas asiakas = new Asiakas(nimi, id);
 			asiakkaat.add(asiakas);
 			kirjoitaAsiakkaat();
 			System.out.println("Asiakas " + id + " luotu");
@@ -274,8 +256,22 @@ public class Ohjelma {
 				
 				System.out.println(i + ". " + matka.annaPaivamaara().toString() + " - " +
 						matka.annaKohde() + " - " + matka.annaKesto() + " tuntia");
+				
+				if (i != 0 && i % 10 == 0) {
+					System.out.println("Kirjoita q lopettaaksesi varausten listaamisen");
+					System.out.println("Paina enter jatkaaksesi varausten listaamista");
+					
+					String input = scanner.nextLine();
+					
+					if (input.equals("q")) {
+						break;
+					} else if (input.equals("")) {
+						continue;
+					}
+				}
 			}
 			
+			System.out.println("Syötä valintasi");
 			String valinta = scanner.nextLine();
 			int valinta_int = Integer.parseInt(valinta);
 			
@@ -345,16 +341,143 @@ public class Ohjelma {
 	}
 
 	public static void matkaMenu() {
+		boolean matkaLoop = true;
+
+		while (matkaLoop) {
+			System.out.println("Matkamenu:");
+			System.out.println("1. Luo matka");
+			System.out.println("2. Poista matka");
+			System.out.println("0. Palaa");
+
+			String input = scanner.nextLine();
+
+			switch (input) {
+			case "1":
+				luoMatkaMenu();
+				break;
+			case "2":
+				poistaMatkaMenu();
+				break;
+			case "0":
+				return;
+			default:
+				break;
+			}
+		}
+		scanner.reset();
+	}
+	
+	public static void luoMatkaMenu() {
+		boolean luoMatkaLoop = true;
 		
+		while (luoMatkaLoop) {
+			System.out.println("Mille päivälle haluaisit luoda matkan?");
+			System.out.println("Anna vastauksesi muodossa dd-mm-yyyy");
+			String datestring = scanner.nextLine();
+			
+			if (datestring.equals("")) {
+				luoMatkaLoop = false;
+				break;
+			}
+			
+			String[] split = datestring.split("-");
+			int dd = Integer.parseInt(split[0]);
+			int mm = Integer.parseInt(split[1]);
+			int yyyy = Integer.parseInt(split[2]);
+			Date date = new Date(yyyy - 1900, mm, dd);
+			
+			System.out.println("Anna matkan määränpää");
+			String kohde = scanner.nextLine();
+			
+			System.out.println("Anna matkan kesto tunteina");
+			String kesto = scanner.nextLine();
+			int kesto_int = Integer.parseInt(kesto);
+			
+			Matka matka = new Matka(date, kesto_int, kohde);
+			
+			for (Matka m : matkat) {
+				if (m.annaPaivamaara().getDate() == dd && m.annaPaivamaara().getMonth() == mm &&
+						m.annaPaivamaara().getYear() + 1900 == yyyy && m.annaKesto() == kesto_int &&
+						m.annaKohde() == kohde) {
+					System.out.println("Samanlainen matka on jo olemassa, matkaa ei luotu");
+					continue;
+				}
+			}
+			matkat.add(matka);
+			
+			kirjoitaMatkat();
+			
+			System.out.println("Matka luotiin onnistuneesti");
+			luoMatkaLoop = false;
+		}
 	}
 
+	public static void poistaMatkaMenu() {
+		boolean poistaMatkaLoop = true;
+		
+		while(poistaMatkaLoop) {
+			
+			if (matkat.size() == 0) {
+				System.out.println("Ei poistettavia matkoja");
+				poistaMatkaLoop = false;
+				break;
+			}
+			
+			System.out.println("Minkä seuraavista matkoista haluat poistaa?");
+			
+			for (int i = 0; i < matkat.size(); i++) {
+				Matka matka = matkat.get(i);
+				
+				System.out.println(i + ". " + matka.annaPaivamaara().toString() + " - " +
+						matka.annaKohde() + " - " + matka.annaKesto() + " tuntia");
+				if (i != 0 && i % 10 == 0) {
+					System.out.println("Kirjoita q lopettaaksesi matkojen listaamisen");
+					System.out.println("Paina enter jatkaaksesi matkojen listaamista");
+					
+					String input = scanner.nextLine();
+					
+					if (input.equals("q")) {
+						break;
+					} else if (input.equals("")) {
+						continue;
+					}
+				}
+			}
+			
+			System.out.println("Syötä valintasi");
+			String valinta = scanner.nextLine();
+			
+			if (valinta.equals("")) {
+				poistaMatkaLoop = false;
+				break;
+			}
+			
+			int valinta_int = Integer.parseInt(valinta);
+			
+			if (valinta_int >= matkat.size()) {
+				System.out.println("Virheellinen syöte");
+				continue;
+			}
+
+			matkat.remove(valinta_int);
+			
+			poistaMatkaLoop = false;
+			
+			kirjoitaMatkat();
+			
+			System.out.println("Varaus poistettiin onnistuneesti");
+		}
+		
+		scanner.reset();
+	}
+	
 	public static void varausMenu() {
 
 	}
 
 	public static void generoiAsiakkaat() {
 		for (int i = 0; i < ASIAKKAITA; i++) {
-			Asiakas asiakas = new Asiakas("Testi Asiakas " + i, i, AsiakasTaso.BASIC);
+			Asiakas asiakas = new Asiakas("Testi Asiakas " + i, i);
 			asiakkaat.add(asiakas);
 		}
 	}
@@ -419,7 +542,7 @@ public class Ohjelma {
 		}
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(f));
+			BufferedReader br = new BufferedReader(new FileReader(g));
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 
@@ -445,36 +568,38 @@ public class Ohjelma {
 
 			}
 		}
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(h));
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+
+				kasitteleMatka(line);
+			}
+
+			br.close();
+		} catch (Exception e) {
+
+		}
 	}
 
-	private static void kasitteleAsiakas(String line) {
-		String[] split = line.split("\\|"); // Splitin pituuden tulisi olla 3
+	public static void kasitteleAsiakas(String line) {
+		String[] split = line.split("\\|"); // Splitin pituuden tulisi olla 2
 
 		String nimi = split[0]; // nimi
 		String id = split[1]; // id
 		int id_int = Integer.parseInt(id);
-		String taso = split[2]; // taso
-		AsiakasTaso taso_enum = null;
 
-		switch (taso) {
-		case "BASIC":
-			taso_enum = AsiakasTaso.BASIC;
-			break;
-		case "GOLD":
-			taso_enum = AsiakasTaso.GOLD;
-			break;
-		case "PLATINUM":
-			taso_enum = AsiakasTaso.PLATINUM;
-			break;
-		default:
-			break;
-		}
-
-		Asiakas asiakas = new Asiakas(nimi, id_int, taso_enum);
+		Asiakas asiakas = new Asiakas(nimi, id_int);
 		asiakkaat.add(asiakas);
 	}
 
-	private static void kirjoitaAsiakkaat() {
+	public static void kirjoitaAsiakkaat() {
 		File f = new File("Asiakkaat.txt");
 		if ((f.exists() && !f.isDirectory()) == false) {
 			try {
@@ -498,7 +623,7 @@ public class Ohjelma {
 		}
 	}
 
-	private static void kasitteleMatka(String line) {
+	public static void kasitteleMatka(String line) {
 		String[] split = line.split("\\|"); // Splitin pituuden
 											// tulisi olla 3
 
@@ -512,7 +637,7 @@ public class Ohjelma {
 		matkat.add(matka);
 	}
 
-	private static void kirjoitaMatkat() {
+	public static void kirjoitaMatkat() {
 		File f = new File("Matkat.txt");
 		if ((f.exists() && !f.isDirectory()) == false) {
 			try {
@@ -536,8 +661,8 @@ public class Ohjelma {
 		}
 	}
 
-	private static void kasitteleVaraus(String line) {
-		String[] split = line.split("\\|"); // Splitin pituuden tulisi olla 7
+	public static void kasitteleVaraus(String line) {
+		String[] split = line.split("\\|"); // Splitin pituuden tulisi olla 6
 
 		String paivamaara = split[0]; // Matkan päivämäärä
 		String kesto = split[1]; // Matkan kesto
@@ -549,26 +674,10 @@ public class Ohjelma {
 		String nimi = split[4]; // Asiakkaan nimi
 		String id = split[5]; // Asiakkaan id
 		int id_int = Integer.parseInt(id);
-		String taso = split[6]; // Asiakkaan taso
-		AsiakasTaso taso_enum = null;
-
-		switch (taso) {
-		case "BASIC":
-			taso_enum = AsiakasTaso.BASIC;
-			break;
-		case "GOLD":
-			taso_enum = AsiakasTaso.GOLD;
-			break;
-		case "PLATINUM":
-			taso_enum = AsiakasTaso.PLATINUM;
-			break;
-		default:
-			break;
-		}
 
 		Matka matka = new Matka(new Date(paivamaara), kesto_int, kohde);
 		Date varauspaivamaara = new Date(varauspvm);
-		Asiakas asiakas = new Asiakas(nimi, id_int, taso_enum);
+		Asiakas asiakas = new Asiakas(nimi, id_int);
 
 		Varaus varaus = new Varaus(matka, varauspaivamaara, asiakas);
 
@@ -576,7 +685,7 @@ public class Ohjelma {
 
 	}
 
-	private static void kirjoitaVaraukset() {
+	public static void kirjoitaVaraukset() {
 		File f = new File("Varaukset.txt");
 		if ((f.exists() && !f.isDirectory()) == false) {
 			try {
