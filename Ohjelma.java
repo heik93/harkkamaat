@@ -755,6 +755,7 @@ public class Ohjelma {
 											// tulisi olla 3
 
 		String paivamaara = split[0]; // Matkan p‰iv‰m‰‰r‰
+		Date pvm = new Date(paivamaara);
 		String kesto = split[1]; // Matkan kesto
 		int kesto_int = 0;
 		
@@ -768,7 +769,7 @@ public class Ohjelma {
 		
 		String kohde = split[2]; // Matkan kohde
 
-		Matka matka = new Matka(new Date(paivamaara), kesto_int, kohde);
+		Matka matka = new Matka(pvm, kesto_int, kohde);
 
 		matkat.add(matka);
 	}
