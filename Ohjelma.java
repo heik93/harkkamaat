@@ -64,7 +64,10 @@ public class Ohjelma {
 	}
 
 	public static void menuLoop() {
-		System.out.println("Testimenu:");
+		System.out.println("===================================");
+		System.out.println("=== Lentobussivarausjärjestelmä ===");
+		System.out.println("===================================");
+		System.out.println();
 		System.out.println("1. Asiakkaat");
 		System.out.println("2. Matkat");
 		System.out.println("0. Quit");
@@ -91,7 +94,7 @@ public class Ohjelma {
 		boolean asiakasLoop = true;
 
 		while (asiakasLoop) {
-			System.out.println("Asiakasmenu:");
+			System.out.println("=== Asiakasmenu ===");
 			System.out.println("1. Luo asiakas");
 			System.out.println("2. Kirjaudu");
 			System.out.println("3. Poista asiakas");
@@ -187,7 +190,9 @@ public class Ohjelma {
 		boolean kirjautunutLoop = true;
 
 		while (kirjautunutLoop) {
-			System.out.println("Asiakashallinta:");
+			System.out.println("=== Asiakashallinta ===");
+			System.out.println("=== Kirjautunut:    ===");
+			System.out.println(kirjautunut.annaNimi());
 			System.out.println("1. Tee uusi varaus");
 			System.out.println("2. Poista varaus");
 			System.out.println("0. Palaa");
@@ -429,7 +434,7 @@ public class Ohjelma {
 		boolean matkaLoop = true;
 
 		while (matkaLoop) {
-			System.out.println("Matkamenu:");
+			System.out.println("=== Matkamenu ===");
 			System.out.println("1. Luo matka");
 			System.out.println("2. Poista matka");
 			System.out.println("0. Palaa");
@@ -608,8 +613,8 @@ public class Ohjelma {
 			Date paivamaara = cal.getTime();
 			Matka matka = new Matka(paivamaara, 8, "Testimaa");
 			matkat.add(matka);
-			if (paivamaara.getDate() != loppudate.getDate() && 
-					paivamaara.getMonth() != loppudate.getMonth() &&
+			if (paivamaara.getDate() != loppudate.getDate() || 
+					paivamaara.getMonth() != loppudate.getMonth() ||
 					paivamaara.getYear() != loppudate.getYear()) {
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			} else {
